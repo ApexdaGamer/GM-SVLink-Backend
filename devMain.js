@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-const bodyParser = require('body-parser');
 
 const wss = new WebSocket.Server({port: 7774})
 const sids = {}
