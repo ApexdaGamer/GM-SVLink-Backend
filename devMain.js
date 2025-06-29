@@ -10,7 +10,7 @@ wss.on('connection', async (ws) => {
     ws.on('message', (msg) => {
         // console.log("received message '" + msg + "'")
         // this was slowing down the server with the sheer amount of text
-        if (msg.startsWith("direct")) {
+        if (msg.substring(0, 6) == "direct") {
             const args = msg.split(" ")
             args.shift()
             const sid = args.shift()
