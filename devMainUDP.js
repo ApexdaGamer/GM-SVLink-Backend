@@ -7,7 +7,7 @@ const cs = {}
 let csid = 0
 
 const ef = (err) => {
-    if (error) {
+    if (err) {
         console.log(`connection errored: ${err}`)
         let sid = -1
         Object.values(cs).forEach(c => {
@@ -41,13 +41,14 @@ server.on('message', function(msg,info) {
         console.log("connection closed")
         let sid = -1
         Object.values(cs).forEach(c => {
-            if (c.a == info.address && c.p == info.port) {
+            if (c && c.a == info.address && c.p == info.port) {
                 sid = gkfv(cs, c)
                 cs[sid] = null
             }
         });
         Object.values(cs).forEach(c => {
-            server.send(Buffer.from(`${sid} svd`), c.p, c.a, ef)
+            if (c)
+                server.send(Buffer.from(`${sid} svd`), c.p, c.a, ef)
         })
         console.log(`disconnection handled for server ${sid}`)
     } else if (msg.startsWith("direct")) {
@@ -59,7 +60,7 @@ server.on('message', function(msg,info) {
             server.send(Buffer.from(`${sid} ${args.join(" ")}`), c.p, c.a, ef)
     } else {
         Object.values(cs).forEach(c => {
-            if (c.p != info.port && c.a != info.address) 
+            if (c && c.p != info.port && c.a != info.address) 
                 server.send(Buffer.from(`${gkfv(cs, c)} ${msg}`), c.p, c.a, ef)
         })
     }
