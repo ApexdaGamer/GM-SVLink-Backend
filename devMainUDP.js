@@ -55,6 +55,7 @@ server.on('message', function(msg,info) {
         const args = msg.split(" ")
         args.shift()
         const sid = args.shift()
+        sid = Number.parseInt(sid)
         const c = cs[sid]
         if (c)
             server.send(Buffer.from(`${sid} ${args.join(" ")}`), c.p, c.a, ef)
